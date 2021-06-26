@@ -62,6 +62,8 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+        //ADD VALIDATION 
+
         $task = new Task;
         $task->user_id = $this->userID;
         $task->title = $request->title;
@@ -88,6 +90,8 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
+        // ADD VALIDATION 
+        
         $task = Task::where('user_id', $this->userID)->where('id', $task->id)->first();
         $task->title = $request->title;
         $task->description = $request->description;
