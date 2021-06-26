@@ -6,7 +6,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Task Board for {{ user.name }}</h4>
+                    <h4>Task Board</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive"> 
@@ -67,7 +67,7 @@ export default {
             await axios.get('/api/task/').then( response => {
                 this.tasks = response.data
             }).catch( error => {
-                console.log(error)
+                alert('Something went wrong..')
                 this.tasks = []
             })
         },
@@ -77,7 +77,7 @@ export default {
                 axios.delete(`/api/task/${id}`).then( response => {
                     this.getTasks()
                 }).catch(error=>{
-                    console.log(error)
+                    alert('Something went wrong..')
                 })
             }
         }

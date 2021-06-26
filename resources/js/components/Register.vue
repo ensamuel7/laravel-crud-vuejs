@@ -1,10 +1,9 @@
 <template>
-    <div class="container mt-5">
-        <div class="col-12 text-center">
-            <h1>Register</h1>  
-                    <div class="col-6">
-                        <div class="card-body">
-                            <form @submit.prevent="submit">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <div class="login-form bg-light mt-4 p-4">
+                    <form @submit.prevent="submit">
                                 <div class="row">
                                     <div class="col-12 mb-2">
                                         <div class="form-group">
@@ -35,12 +34,17 @@
                                     </div>
                                 </div>                        
                             </form>
+                    <hr class="mt-4">
+                    <div class="col-12">
+                        <p class="text-center mb-0">Already registered? 
+                            <router-link :to='{name:"login"}' >Login Now</router-link>
+                            </p>
+                    </div>
                 </div>
-            </div>    
+            </div>
         </div>
     </div>
 </template>
-
 
 <script>
 export default {
@@ -63,7 +67,7 @@ export default {
                     this.$router.push({name:"login"})
                 }
             }).catch(error=>{
-                aalert("Something went wrong, please check your inputs or account may already exist")
+                alert("Something went wrong, please check your inputs or account may already exist")
             })
         }
     }

@@ -34,7 +34,7 @@ export default {
             await axios.post('/api/auth/login',credentials).then( response => {
                 return dispatch('letsTry', response.data.access_token) // pass token
             }).catch( error => {
-                console.log(error)
+                //console.log(error)
             }) 
         },
 

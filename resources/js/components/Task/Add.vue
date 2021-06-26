@@ -47,7 +47,7 @@ export default {
             await axios.post('/api/task',this.task).then( response => {
                 this.$router.push({name:"taskList"})
             }).catch( error => {
-                console.log(error)
+                alert('Something went wrong..')
             })
         }
     }

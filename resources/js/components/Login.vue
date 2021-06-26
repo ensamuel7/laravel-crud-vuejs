@@ -1,10 +1,9 @@
 <template>
-    <div class="container mt-5">
-        <div class="col-12 text-center">
-            <h1>Login</h1>
-                <div class="col-6">
-                        <div class="card-body">
-                            <form @submit.prevent="submit">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <div class="login-form bg-light mt-4 p-4">
+                    <form @submit.prevent="submit">
                                 <div class="row">
                                     <div class="col-12 mb-2">
                                         <div class="form-group">
@@ -23,8 +22,14 @@
                                     </div>
                                 </div>                        
                             </form>
-                        </div>
+                    <hr class="mt-4">
+                    <div class="col-12">
+                        <p class="text-center mb-0">Have not registered yet? 
+                            <router-link :to='{name:"register"}' >Signup</router-link>
+                            </p>
+                    </div>
                 </div>
+            </div>
         </div>
     </div>
 </template>
@@ -49,11 +54,13 @@ export default {
         submit(){
             // REFERENCE THE MAP ACTION
             this.logIn(this.form).then(() => {
-                this.$router.push({
-                    name: 'taskList',
-                })
+                 if(store.getters['auth/authenticated']){
+                    this.$router.push({
+                        name: 'taskList',
+                    })
+                }
             }).catch(() => {
-                consoloe.log('failed')
+                alert("Sorry it didn't work..")
             })
         }
     }
