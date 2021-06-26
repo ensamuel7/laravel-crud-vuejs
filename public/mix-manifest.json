@@ -1,0 +1,10 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/js/resource/js/components/welcome.js": "/js/resource/js/components/welcome.js",
+    "/js/resource/js/components/login.js": "/js/resource/js/components/login.js",
+    "/js/resource/js/components/register.js": "/js/resource/js/components/register.js",
+    "/js/resource/js/components/task/list.js": "/js/resource/js/components/task/list.js",
+    "/js/resource/js/components/task/add.js": "/js/resource/js/components/task/add.js",
+    "/js/resource/js/components/task/edit.js": "/js/resource/js/components/task/edit.js",
+    "/css/app.css": "/css/app.css"
+}
