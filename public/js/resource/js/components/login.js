@@ -81,12 +81,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     submit: function submit() {
       var _this = this;
 
-      // REFERENCE THE MAP ACTION
-      this.logIn(this.form).then(function () {
-        _this.$router.push({
-          name: 'taskList'
-        });
-      })["catch"](function (error) {
+      this.logIn(this.form).then(function () {})["catch"](function (error) {
         _this.errors = error.response.data.error;
       });
     }

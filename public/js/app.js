@@ -1956,12 +1956,18 @@ router.beforeEach(function (to, from, next) {
       return next({
         name: 'login'
       });
-    } else {
-      next();
     }
-  } else {
-    next();
   }
+
+  if (to.meta.requiresSomeAuth) {
+    if (_store__WEBPACK_IMPORTED_MODULE_4__.default.getters["auth/authenticated"]) {
+      return next({
+        name: 'taskList'
+      });
+    }
+  }
+
+  next();
 }); // ONLY RENDER THE VIEW AFTER THE PROMISE IS RETURNED
 
 _store__WEBPACK_IMPORTED_MODULE_4__.default.dispatch('auth/letsTry', localStorage.getItem('token')).then(function () {
@@ -2052,13 +2058,16 @@ var routes = [{
   path: '/',
   component: Welcome
 }, {
-  name: 'login',
-  path: '/login',
-  component: Login
-}, {
   name: 'register',
   path: '/register',
   component: Register
+}, {
+  name: 'login',
+  path: '/login',
+  component: Login,
+  meta: {
+    requiresSomeAuth: true
+  }
 }, {
   name: 'taskList',
   path: '/task',
@@ -2151,8 +2160,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   namespaced: true,
   state: {
     token: null,
-    user: null //object when filled
-
+    user: null
   },
   mutations: {
     SET_MY_TOKEN: function SET_MY_TOKEN(state, token) {
@@ -2188,6 +2196,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return dispatch('letsTry', response.data.access_token); // pass token
                 })["catch"](function (error) {
                   alert('Login Failed');
+                  return error;
                 });
 
               case 3:
