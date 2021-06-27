@@ -63,6 +63,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "register",
   data: function data() {
@@ -72,7 +85,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         email: "",
         password: "",
         password_confirmation: ""
-      }
+      },
+      errors: null
     };
   },
   methods: {
@@ -86,15 +100,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.next = 2;
                 return _this.axios.post('/api/auth/register', _this.form).then(function (response) {
-                  if (response.data.message.length > 0) {
-                    alert(response.data.message);
-
-                    _this.$router.push({
-                      name: "login"
-                    });
-                  }
+                  _this.$router.push({
+                    name: "login"
+                  });
                 })["catch"](function (error) {
-                  aalert("Something went wrong, please check your inputs or account may already exist");
+                  _this.errors = error.response.data.errors;
                 });
 
               case 2:
@@ -198,12 +208,37 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container mt-5" }, [
-    _c("div", { staticClass: "col-12 text-center" }, [
-      _c("h1", [_vm._v("Register")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-6" }, [
-        _c("div", { staticClass: "card-body" }, [
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-4 offset-md-4" }, [
+        _c("div", { staticClass: "login-form bg-light mt-4 p-4" }, [
+          _vm.errors
+            ? _c(
+                "div",
+                _vm._l(_vm.errors, function(v, k) {
+                  return _c(
+                    "div",
+                    { key: k },
+                    _vm._l(v, function(error) {
+                      return _c(
+                        "p",
+                        { key: error, staticClass: "text-danger" },
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(error) +
+                              "\n                        "
+                          )
+                        ]
+                      )
+                    }),
+                    0
+                  )
+                }),
+                0
+              )
+            : _vm._e(),
+          _vm._v(" "),
           _c(
             "form",
             {
@@ -335,7 +370,23 @@ var render = function() {
                 _vm._m(1)
               ])
             ]
-          )
+          ),
+          _vm._v(" "),
+          _c("hr", { staticClass: "mt-4" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12" }, [
+            _c(
+              "p",
+              { staticClass: "text-center mb-0" },
+              [
+                _vm._v("Already registered? \n                        "),
+                _c("router-link", { attrs: { to: { name: "login" } } }, [
+                  _vm._v("Login Now")
+                ])
+              ],
+              1
+            )
+          ])
         ])
       ])
     ])

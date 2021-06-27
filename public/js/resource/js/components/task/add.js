@@ -52,6 +52,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "add-task",
   data: function data() {
@@ -59,7 +69,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       task: {
         title: "",
         description: ""
-      }
+      },
+      errors: null
     };
   },
   methods: {
@@ -77,7 +88,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     name: "taskList"
                   });
                 })["catch"](function (error) {
-                  console.log(error);
+                  _this.errors = error.response.data.errors;
                 });
 
               case 2:
@@ -198,6 +209,33 @@ var render = function() {
               }
             },
             [
+              _vm.errors
+                ? _c(
+                    "div",
+                    _vm._l(_vm.errors, function(v, k) {
+                      return _c(
+                        "div",
+                        { key: k },
+                        _vm._l(v, function(error) {
+                          return _c(
+                            "p",
+                            { key: error, staticClass: "text-danger" },
+                            [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(error) +
+                                  "\n                            "
+                              )
+                            ]
+                          )
+                        }),
+                        0
+                      )
+                    }),
+                    0
+                  )
+                : _vm._e(),
+              _vm._v(" "),
               _c("div", { staticClass: "row" }, [
                 _c("div", { staticClass: "col-12 mb-2" }, [
                   _c("div", { staticClass: "form-group" }, [

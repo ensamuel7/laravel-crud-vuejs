@@ -49,6 +49,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "login",
@@ -57,7 +71,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       form: {
         email: "",
         password: ""
-      }
+      },
+      errors: null
     };
   },
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)({
@@ -71,8 +86,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this.$router.push({
           name: 'taskList'
         });
-      })["catch"](function () {
-        consoloe.log('failed');
+      })["catch"](function (error) {
+        _this.errors = error.response.data.error;
       });
     }
   })
@@ -168,12 +183,37 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container mt-5" }, [
-    _c("div", { staticClass: "col-12 text-center" }, [
-      _c("h1", [_vm._v("Login")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-6" }, [
-        _c("div", { staticClass: "card-body" }, [
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-4 offset-md-4" }, [
+        _c("div", { staticClass: "login-form bg-light mt-4 p-4" }, [
+          _vm.errors
+            ? _c(
+                "div",
+                _vm._l(_vm.errors, function(v, k) {
+                  return _c(
+                    "div",
+                    { key: k },
+                    _vm._l(v, function(error) {
+                      return _c(
+                        "p",
+                        { key: error, staticClass: "text-danger" },
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(error) +
+                              "\n                        "
+                          )
+                        ]
+                      )
+                    }),
+                    0
+                  )
+                }),
+                0
+              )
+            : _vm._e(),
+          _vm._v(" "),
           _c(
             "form",
             {
@@ -245,7 +285,23 @@ var render = function() {
                 _vm._m(0)
               ])
             ]
-          )
+          ),
+          _vm._v(" "),
+          _c("hr", { staticClass: "mt-4" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12" }, [
+            _c(
+              "p",
+              { staticClass: "text-center mb-0" },
+              [
+                _vm._v("Have not registered yet? \n                        "),
+                _c("router-link", { attrs: { to: { name: "register" } } }, [
+                  _vm._v("Signup")
+                ])
+              ],
+              1
+            )
+          ])
         ])
       ])
     ])

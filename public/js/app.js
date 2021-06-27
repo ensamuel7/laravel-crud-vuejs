@@ -2187,7 +2187,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/auth/login', credentials).then(function (response) {
                   return dispatch('letsTry', response.data.access_token); // pass token
                 })["catch"](function (error) {
-                  console.log(error);
+                  alert('Login Failed');
                 });
 
               case 3:

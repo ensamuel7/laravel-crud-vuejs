@@ -34,7 +34,9 @@ class AuthController extends Controller
         }
 
         if (! $token = auth()->attempt($validator->validated())) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['errors' => [
+                'login' => ["Incorrect Login."]
+            ]], 401);
         }
 
         return $this->createNewToken($token);
@@ -53,7 +55,7 @@ class AuthController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json(['errors' => $validator->errors()], 422);
         }
 
         $user = User::create(array_merge(

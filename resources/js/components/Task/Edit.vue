@@ -7,6 +7,15 @@
                 </div>
                 <div class="card-body">
                     <form @submit.prevent="update">
+
+                        <div v-if="errors" >
+                            <div v-for="(v, k) in errors" :key="k">
+                                <p v-for="error in v" :key="error" class="text-danger">
+                                {{ error }}
+                                </p>
+                            </div>
+                        </div>
+                        
                         <div class="row">
                             <div class="col-12 mb-2">
                                 <div class="form-group">
@@ -40,7 +49,8 @@ export default {
                 title:"",
                 description:"",
                 _method:"patch"
-            }
+            },
+            errors: null
         }
     },
     mounted(){
@@ -61,7 +71,7 @@ export default {
                 if (error.response.status === 404) {
                    this.$router.push({name:"notFound"});
                 }
-                alert('Something went wrong..')
+                this.errors = error.response.data.errors;
             })
         },
         async update(){
@@ -74,7 +84,7 @@ export default {
 
                     this.$router.push({name:"taskList"})
                 }).catch( error => {
-                    alert('Something went wrong..')
+                    this.errors = error.response.data.errors;
                 })
             }     
         }

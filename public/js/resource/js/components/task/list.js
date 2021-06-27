@@ -68,16 +68,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "tasks",
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)({
     authenticated: 'auth/authenticated',
     user: 'auth/user'
   })),
-  name: "tasks",
   data: function data() {
     return {
-      tasks: []
+      tasks: [],
+      errors: null
     };
   },
   mounted: function mounted() {
@@ -96,7 +106,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 return axios.get('/api/task/').then(function (response) {
                   _this.tasks = response.data;
                 })["catch"](function (error) {
-                  console.log(error);
+                  _this.errors = error.response.data.errors;
                   _this.tasks = [];
                 });
 
@@ -115,7 +125,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         axios["delete"]("/api/task/".concat(id)).then(function (response) {
           _this2.getTasks();
         })["catch"](function (error) {
-          console.log(error);
+          _this2.errors = error.response.data.errors;
         });
       }
     }
@@ -231,21 +241,42 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "col-12" }, [
       _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-header" }, [
-          _c("h4", [_vm._v("Task Board for " + _vm._s(_vm.user.name))])
-        ]),
+        _vm._m(0),
+        _vm._v(" "),
+        _vm.errors
+          ? _c(
+              "div",
+              _vm._l(_vm.errors, function(v, k) {
+                return _c(
+                  "div",
+                  { key: k },
+                  _vm._l(v, function(error) {
+                    return _c("p", { key: error, staticClass: "text-danger" }, [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(error) +
+                          "\n                    "
+                      )
+                    ])
+                  }),
+                  0
+                )
+              }),
+              0
+            )
+          : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _c("div", { staticClass: "table-responsive" }, [
             _c("table", { staticClass: "table table-bordered" }, [
-              _vm._m(0),
+              _vm._m(1),
               _vm._v(" "),
               !!_vm.tasks
                 ? _c(
                     "tbody",
-                    _vm._l(_vm.tasks, function(task, key) {
+                    _vm._l(_vm.tasks, function(task, key, index) {
                       return _c("tr", { key: key }, [
-                        _c("td", [_vm._v(_vm._s(task.created_at))]),
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(task.title))]),
                         _vm._v(" "),
@@ -301,9 +332,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h4", [_vm._v("Task Board")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Created")]),
+        _c("th", [_vm._v("#")]),
         _vm._v(" "),
         _c("th", [_vm._v("Title")]),
         _vm._v(" "),

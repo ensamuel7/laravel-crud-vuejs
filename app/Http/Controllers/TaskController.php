@@ -9,13 +9,9 @@ class TaskController extends Controller
 {
 
     private $userID;
-    private $actionMessage;
-    private $authMessage;
 
     public function __construct() {
         $this->userID = auth()->user()->id;
-        $this->actionMessage = "Failed";
-        $this->authMessage = 1;
     }
 
     /**
@@ -25,8 +21,8 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {   
-        $tasks = Task::all(['id','title','user_id','description','created_at'])->where('user_id', $this->userID);
-        return response()->json($tasks);
+        $tasks = Task::all(['id','title','user_id','description'])->where('user_id', $this->userID);
+        return response()->json( $tasks );
     }
 
 
@@ -40,17 +36,15 @@ class TaskController extends Controller
     {
         $t = Task::where('user_id', $this->userID)->where('id', $task->id)->first();
 
-        if(!empty( $t )){
-            $this->actionMessage = "Successful";
-            $this->authMessage =  0;
-            return response()->json( $t );
+        if(!empty($t)){
+            return response()->json($t);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message'    => 'Error',
+                ], 404
+            );
         }
-        
-        return response()->json([
-            'message'=> $this->actionMessage,
-            'authMessage' => $this->authMessage,
-            'task'=> $task
-        ]); 
 
     }
 
@@ -62,22 +56,22 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //ADD VALIDATION 
-
-        $task = new Task;
-        $task->user_id = $this->userID;
-        $task->title = $request->title;
-        $task->description = $request->description;
-        if( $task->save() ) {
-            $this->actionMessage = "Successful";
-            $this->authMessage =  0;
-        }
+        $rules = [
+            'title' => 'required|min:5',
+            'description' => 'required|min:20',
+        ]; 
         
+        $validatedData = $request->validate($rules);
+        $validatedData['user_id'] = $this->userID;
+
+        $task = Task::create(array_merge(
+                    $validatedData
+                ));
+
         return response()->json([
-            'message'=> $this->actionMessage,
-            'authMessage' => $this->authMessage,
-            'task'=> $task
-        ]); 
+            'message' => 'Task successfully Created',
+            'task' => $task
+        ], 201);
     }
 
 
@@ -90,28 +84,26 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        // ADD VALIDATION 
-        
         $task = Task::where('user_id', $this->userID)->where('id', $task->id)->first();
-        $task->title = $request->title;
-        $task->description = $request->description;
-
-        if( $task->update() ) {
-            $this->actionMessage = "Successful";
-            $this->authMessage =  0;
-        }
+        $rules = [
+            'title' => 'required|min:5',
+            'description' => 'required|min:20',
+        ]; 
+        
+        $validatedData = $request->validate($rules);
+        $task->title = $validatedData['title'];
+        $task->description = $validatedData['description'];
+        $task->save();
 
         return response()->json([
-            'message'=> $this->actionMessage,
-            'authMessage' => $this->authMessage,
-            'task'=> $task
-        ]); 
-
+            'message' => 'Task successfully Updated',
+            'task' => $task
+        ], 201);
     }
 
     /**
      * Remove the specified resource from storage.
-     *
+     *wd
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
@@ -120,16 +112,13 @@ class TaskController extends Controller
 
         $task = Task::where('user_id', $this->userID)->where('id', $task->id)->first();
         if( $task->delete() ) {
-            $this->actionMessage = "Successful";
-            $this->authMessage =  0;
+            return response()->json([
+                'message' => 'Task successfully Updated',
+                'task' => $task
+            ], 201);    
         }
 
-        return response()->json([
-            'message'=> $this->actionMessage,
-            'authMessage' => $this->authMessage,
-            'task'=> $task
-        ]); 
-        
+    
     }
 
 

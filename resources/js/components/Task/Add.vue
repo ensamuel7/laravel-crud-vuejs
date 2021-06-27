@@ -6,7 +6,17 @@
                     <h4>Add Task</h4>
                 </div>
                 <div class="card-body">
+
                     <form @submit.prevent="create">
+                        
+                        <div v-if="errors" >
+                            <div v-for="(v, k) in errors" :key="k">
+                                <p v-for="error in v" :key="error" class="text-danger">
+                                {{ error }}
+                                </p>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-12 mb-2">
                                 <div class="form-group">
@@ -39,7 +49,9 @@ export default {
             task:{
                 title: "",
                 description: ""
-            }
+            },
+            errors: null
+            
         }
     },
     methods:{
@@ -47,7 +59,7 @@ export default {
             await axios.post('/api/task',this.task).then( response => {
                 this.$router.push({name:"taskList"})
             }).catch( error => {
-                alert('Something went wrong..')
+                this.errors = error.response.data.errors;
             })
         }
     }

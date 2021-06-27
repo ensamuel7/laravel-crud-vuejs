@@ -54,13 +54,11 @@ export default {
         submit(){
             // REFERENCE THE MAP ACTION
             this.logIn(this.form).then(() => {
-                 if(store.getters['auth/authenticated']){
                     this.$router.push({
                         name: 'taskList',
                     })
-                }
-            }).catch(() => {
-                alert("Sorry it didn't work..")
+            }).catch((error) => {
+                consolelog(error)
             })
         }
     }

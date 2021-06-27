@@ -52,6 +52,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "update-task",
   data: function data() {
@@ -60,7 +69,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         title: "",
         description: "",
         _method: "patch"
-      }
+      },
+      errors: null
     };
   },
   mounted: function mounted() {
@@ -77,12 +87,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.next = 2;
                 return axios.get("/api/task/".concat(_this.$route.params.id)).then(function (response) {
-                  if (response.data.authMessage === 1) {
-                    _this.$router.push({
-                      name: "taskList"
-                    });
-                  }
-
                   var _response$data = response.data,
                       title = _response$data.title,
                       description = _response$data.description;
@@ -94,8 +98,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       name: "notFound"
                     });
                   }
-
-                  console.log(error);
                 });
 
               case 2:
@@ -121,17 +123,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context2.next = 3;
                 return axios.post("/api/task/".concat(_this2.$route.params.id), _this2.task).then(function (response) {
-                  if (response.data.authMessage === 1) {
-                    _this2.$router.push({
-                      name: "taskList"
-                    });
-                  }
-
                   _this2.$router.push({
                     name: "taskList"
                   });
                 })["catch"](function (error) {
-                  console.log(error);
+                  _this2.errors = error.response.data.errors;
                 });
 
               case 3:
@@ -252,6 +248,33 @@ var render = function() {
               }
             },
             [
+              _vm.errors
+                ? _c(
+                    "div",
+                    _vm._l(_vm.errors, function(v, k) {
+                      return _c(
+                        "div",
+                        { key: k },
+                        _vm._l(v, function(error) {
+                          return _c(
+                            "p",
+                            { key: error, staticClass: "text-danger" },
+                            [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(error) +
+                                  "\n                            "
+                              )
+                            ]
+                          )
+                        }),
+                        0
+                      )
+                    }),
+                    0
+                  )
+                : _vm._e(),
+              _vm._v(" "),
               _c("div", { staticClass: "row" }, [
                 _c("div", { staticClass: "col-12 mb-2" }, [
                   _c("div", { staticClass: "form-group" }, [
