@@ -3,6 +3,15 @@
         <div class="row">
             <div class="col-md-4 offset-md-4">
                 <div class="login-form bg-light mt-4 p-4">
+
+                    <div v-if="errors" >
+                        <div v-for="(v, k) in errors" :key="k">
+                            <p v-for="error in v" :key="error" class="text-danger">
+                            {{ error }}
+                            </p>
+                        </div>
+                    </div>
+                    
                     <form @submit.prevent="submit">
                                 <div class="row">
                                     <div class="col-12 mb-2">
@@ -56,18 +65,16 @@ export default {
                 email: "",
                 password:"",
                 password_confirmation: "",
-            }
+            },
+            errors: null
         }
     },
     methods:{
         async submit(){
             await this.axios.post('/api/auth/register',this.form).then(response=>{
-                if(response.data.message.length > 0) {
-                    alert(response.data.message)
-                    this.$router.push({name:"login"})
-                }
+                this.$router.push({name:"login"})
             }).catch(error=>{
-                alert("Something went wrong, please check your inputs or account may already exist")
+                this.errors = error.response.data.errors
             })
         }
     }

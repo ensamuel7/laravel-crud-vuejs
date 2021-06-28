@@ -4,7 +4,7 @@ export default {
     namespaced: true,
     state: {
         token: null,
-        user: null,//object when filled
+        user: null,
     },
 
     mutations: {
@@ -34,7 +34,7 @@ export default {
             await axios.post('/api/auth/login',credentials).then( response => {
                 return dispatch('letsTry', response.data.access_token) // pass token
             }).catch( error => {
-                //console.log(error)
+                alert('Login Failed')
             }) 
         },
 

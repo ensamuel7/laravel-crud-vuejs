@@ -1953,17 +1953,9 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
 router.beforeEach(function (to, from, next) {
   if (to.meta.requiresAuth) {
     if (!_store__WEBPACK_IMPORTED_MODULE_4__.default.getters["auth/authenticated"]) {
-      return next({
+      return router.push({
         name: 'login'
-      });
-    }
-  }
-
-  if (to.meta.requiresSomeAuth) {
-    if (_store__WEBPACK_IMPORTED_MODULE_4__.default.getters["auth/authenticated"]) {
-      return next({
-        name: 'taskList'
-      });
+      })["catch"](function (error) {});
     }
   }
 
@@ -2064,10 +2056,7 @@ var routes = [{
 }, {
   name: 'login',
   path: '/login',
-  component: Login,
-  meta: {
-    requiresSomeAuth: true
-  }
+  component: Login
 }, {
   name: 'taskList',
   path: '/task',
@@ -2196,7 +2185,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return dispatch('letsTry', response.data.access_token); // pass token
                 })["catch"](function (error) {
                   alert('Login Failed');
-                  return error;
                 });
 
               case 3:

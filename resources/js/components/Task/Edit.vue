@@ -59,11 +59,6 @@ export default {
     methods:{
         async showTask(){
             await axios.get(`/api/task/${this.$route.params.id}`).then( response => {
-
-                if(response.data.authMessage === 1) {
-                    this.$router.push({name:"taskList"})
-                }
-
                 const { title, description } = response.data
                 this.task.title = title
                 this.task.description = description
@@ -71,17 +66,11 @@ export default {
                 if (error.response.status === 404) {
                    this.$router.push({name:"notFound"});
                 }
-                this.errors = error.response.data.errors;
             })
         },
         async update(){
             if(confirm("Are you happy with your changes?")){
                 await axios.post(`/api/task/${this.$route.params.id}`,this.task).then( response => {
-
-                    if(response.data.authMessage === 1) {
-                        this.$router.push({name:"taskList"})
-                    }
-
                     this.$router.push({name:"taskList"})
                 }).catch( error => {
                     this.errors = error.response.data.errors;

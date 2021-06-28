@@ -8,12 +8,21 @@
                 <div class="card-header">
                     <h4>Task Board</h4>
                 </div>
+
+                <div v-if="errors" >
+                    <div v-for="(v, k) in errors" :key="k">
+                        <p v-for="error in v" :key="error" class="text-danger">
+                        {{ error }}
+                        </p>
+                    </div>
+                </div>
+
                 <div class="card-body">
                     <div class="table-responsive"> 
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Created</th>
+                                    <th>#</th>
                                     <th>Title</th>
                                     <th>Description</th>
                                     <th>Actions</th>
@@ -21,13 +30,13 @@
                             </thead>
 
                             <tbody v-if="!!tasks">
-                                <tr v-for="(task,key) in tasks" :key="key">
-                                    <td>{{ task.created_at }}</td>
+                                <tr v-for="(task,key,index) in tasks" :key="key">
+                                    <td>{{ index + 1}}</td>
                                     <td>{{ task.title }}</td>
                                     <td>{{ task.description }}</td>
                                     <td>
-                                        <router-link :to='{name:"taskEdit",params:{id:task.id}}' class="btn btn-success">Edit</router-link>
-                                        <button type="button" @click="deleteTask(task.id)" class="btn btn-danger">Delete</button>
+                                        <router-link :to='{name:"taskEdit",params:{id:task.id}}' class="btn-sm btn-success">Edit</router-link>
+                                        <button type="button" @click="deleteTask(task.id)" class="btn-sm btn-danger">Delete</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -44,6 +53,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
+    name:"tasks",
     computed: {
             ...mapGetters({
                 authenticated: 'auth/authenticated',
@@ -51,13 +61,11 @@ export default {
             }),
     },
 
-    name:"tasks",
-    
     data(){
         return {
-            tasks:[],        
+            tasks:[],
+            errors: null,        
         }
-        
     },
     mounted(){
         this.getTasks()
@@ -67,7 +75,7 @@ export default {
             await axios.get('/api/task/').then( response => {
                 this.tasks = response.data
             }).catch( error => {
-                alert('Something went wrong..')
+                this.errors = error.response.data.errors;
                 this.tasks = []
             })
         },
@@ -77,7 +85,7 @@ export default {
                 axios.delete(`/api/task/${id}`).then( response => {
                     this.getTasks()
                 }).catch(error=>{
-                    alert('Something went wrong..')
+                    this.errors = error.response.data.errors;
                 })
             }
         }

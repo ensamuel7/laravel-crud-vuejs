@@ -21,15 +21,14 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     if(to.meta.requiresAuth) {
         if(!store.getters['auth/authenticated']){
-            return next({
+            return router.push({
                 name: 'login'
+            }).catch(( error ) => {
             })
-        } else {
-            next()
         }
-    } else {
-        next()
     }
+
+    next()
 })
 
 // ONLY RENDER THE VIEW AFTER THE PROMISE IS RETURNED
