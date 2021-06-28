@@ -13,14 +13,14 @@ export const routes = [
         component: Welcome
     },
     {
-        name: 'login',
-        path: '/login',
-        component: Login
-    },
-    {
         name: 'register',
         path: '/register',
         component: Register
+    },
+    {
+        name: 'login',
+        path: '/login',
+        component: Login,
     },
     {
         name: 'taskList',

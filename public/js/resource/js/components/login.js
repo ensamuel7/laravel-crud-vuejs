@@ -81,7 +81,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     submit: function submit() {
       var _this = this;
 
-      this.logIn(this.form).then(function () {})["catch"](function (error) {
+      this.logIn(this.form).then(function () {
+        if (_this.$route.path != '/taskList') {
+          _this.$router.push({
+            name: "taskList"
+          })["catch"](function (error) {});
+        }
+      })["catch"](function (error) {
         _this.errors = error.response.data.error;
       });
     }

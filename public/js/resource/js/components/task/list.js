@@ -288,7 +288,7 @@ var render = function() {
                             _c(
                               "router-link",
                               {
-                                staticClass: "btn btn-success",
+                                staticClass: "btn-sm btn-success",
                                 attrs: {
                                   to: {
                                     name: "taskEdit",
@@ -302,7 +302,7 @@ var render = function() {
                             _c(
                               "button",
                               {
-                                staticClass: "btn btn-danger",
+                                staticClass: "btn-sm btn-danger",
                                 attrs: { type: "button" },
                                 on: {
                                   click: function($event) {
