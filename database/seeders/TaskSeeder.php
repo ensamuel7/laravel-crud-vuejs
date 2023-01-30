@@ -2,11 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Task;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use App\Models\User;
 
 class TaskSeeder extends Seeder
 {
@@ -17,11 +14,6 @@ class TaskSeeder extends Seeder
      */
     public function run()
     {
-        $user_id = User::all(['id'])->random()->id;
-        DB::table('tasks')->insert([
-            'title' => Str::random(10),
-            'description' => Str::random(20),
-            'user_id' => $user_id,
-        ]);
+        Task::factory()->count(5)->create();
     }
 }

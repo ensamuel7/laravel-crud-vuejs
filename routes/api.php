@@ -21,7 +21,7 @@ Route::group([
     Route::post('/register', [App\Http\Controllers\AuthController::class, 'register']);
     Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout']);
     Route::post('/refresh', [App\Http\Controllers\AuthController::class, 'refresh']);
-    Route::get('/user-profile', [App\Http\Controllers\AuthController::class, 'userProfile']);  
+    Route::get('/user-profile', [App\Http\Controllers\AuthController::class, 'userProfile']);
 });
 
 Route::resource('task', App\Http\Controllers\TaskController::class)->only([

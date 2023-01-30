@@ -242,6 +242,7 @@ var render = function() {
           _c(
             "form",
             {
+              attrs: { autocomplete: "off" },
               on: {
                 submit: function($event) {
                   $event.preventDefault()
@@ -379,7 +380,7 @@ var render = function() {
               "p",
               { staticClass: "text-center mb-0" },
               [
-                _vm._v("Already registered? \n                        "),
+                _vm._v("Already registered?\n                        "),
                 _c("router-link", { attrs: { to: { name: "login" } } }, [
                   _vm._v("Login Now")
                 ])

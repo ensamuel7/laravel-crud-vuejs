@@ -11,8 +11,8 @@
                             </p>
                         </div>
                     </div>
-                    
-                    <form @submit.prevent="submit">
+
+                    <form @submit.prevent="submit" autocomplete="off">
                                 <div class="row">
                                     <div class="col-12 mb-2">
                                         <div class="form-group">
@@ -41,11 +41,11 @@
                                     <div class="col-12">
                                         <button type="submit" class="btn btn-primary">Register</button>
                                     </div>
-                                </div>                        
+                                </div>
                             </form>
                     <hr class="mt-4">
                     <div class="col-12">
-                        <p class="text-center mb-0">Already registered? 
+                        <p class="text-center mb-0">Already registered?
                             <router-link :to='{name:"login"}' >Login Now</router-link>
                             </p>
                     </div>

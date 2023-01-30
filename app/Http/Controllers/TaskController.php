@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
 
-    private $userID;
+    private $user;
 
-    public function __construct() {
-        $this->userID = auth()->user()->id;
+    public function __construct()
+    {
+        $this->user = auth()->user();
     }
 
     /**
@@ -20,9 +23,12 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {   
-        $tasks = Task::all(['id','title','user_id','description'])->where('user_id', $this->userID);
-        return response()->json( $tasks );
+    {
+        $tasks = Task::where('user_id', $this->user->id)->get();
+        return response()->json(
+            $tasks,
+            200
+        );
     }
 
 
@@ -34,18 +40,14 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        $t = Task::where('user_id', $this->userID)->where('id', $task->id)->first();
-
-        if(!empty($t)){
-            return response()->json($t);
-        } else {
-            return response()->json([
-                'status' => 'error',
-                'message'    => 'Error',
-                ], 404
-            );
+        if ($this->user->cannot('view', $task)) {
+            return response(null, 404);
         }
 
+        return response()->json(
+            $task,
+            200
+        );
     }
 
     /**
@@ -54,19 +56,13 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateTaskRequest $request)
     {
-        $rules = [
-            'title' => 'required|min:5',
-            'description' => 'required|min:20',
-        ]; 
-        
-        $validatedData = $request->validate($rules);
-        $validatedData['user_id'] = $this->userID;
-
-        $task = Task::create(array_merge(
-                    $validatedData
-                ));
+        $task = new Task;
+        $task->title = $request->title;
+        $task->description = $request->description;
+        $task->user_id = $this->user->id;
+        $task->save();
 
         return response()->json([
             'message' => 'Task successfully Created',
@@ -82,23 +78,20 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(UpdateTaskRequest $request, Task $task)
     {
-        $task = Task::where('user_id', $this->userID)->where('id', $task->id)->first();
-        $rules = [
-            'title' => 'required|min:5',
-            'description' => 'required|min:20',
-        ]; 
-        
-        $validatedData = $request->validate($rules);
-        $task->title = $validatedData['title'];
-        $task->description = $validatedData['description'];
+        if ($this->user->cannot('update', $task)) {
+            return response(null, 404);
+        }
+
+        $task->title = $request->title;
+        $task->description = $request->description;
         $task->save();
 
         return response()->json([
             'message' => 'Task successfully Updated',
             'task' => $task
-        ], 201);
+        ], 200);
     }
 
     /**
@@ -109,17 +102,12 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-
-        $task = Task::where('user_id', $this->userID)->where('id', $task->id)->first();
-        if( $task->delete() ) {
-            return response()->json([
-                'message' => 'Task successfully Updated',
-                'task' => $task
-            ], 201);    
+        if ($this->user->cannot('delete', $task)) {
+            return response(null, 404);
         }
 
-    
+        if ($task->delete()) {
+            return response()->json(null, 204);
+        }
     }
-
-
 }

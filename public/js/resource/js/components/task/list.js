@@ -77,12 +77,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "tasks",
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)({
-    authenticated: 'auth/authenticated',
-    user: 'auth/user'
+    authenticated: "auth/authenticated",
+    user: "auth/user"
   })),
   data: function data() {
     return {
@@ -103,7 +117,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios.get('/api/task/').then(function (response) {
+                return axios.get("/api/task/").then(function (response) {
                   _this.tasks = response.data;
                 })["catch"](function (error) {
                   _this.errors = error.response.data.errors;
@@ -253,7 +267,7 @@ var render = function() {
                   _vm._l(v, function(error) {
                     return _c("p", { key: error, staticClass: "text-danger" }, [
                       _vm._v(
-                        "\n                    " +
+                        "\n                        " +
                           _vm._s(error) +
                           "\n                    "
                       )
@@ -274,9 +288,9 @@ var render = function() {
               !!_vm.tasks
                 ? _c(
                     "tbody",
-                    _vm._l(_vm.tasks, function(task, key, index) {
+                    _vm._l(_vm.tasks, function(task, key) {
                       return _c("tr", { key: key }, [
-                        _c("td", [_vm._v(_vm._s(index + 1))]),
+                        _c("td", [_vm._v(_vm._s(key + 1))]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(task.title))]),
                         _vm._v(" "),
@@ -310,7 +324,11 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v("Delete")]
+                              [
+                                _vm._v(
+                                  "\n                                        Delete\n                                    "
+                                )
+                              ]
                             )
                           ],
                           1

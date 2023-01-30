@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class TaskFactory extends Factory
 {
@@ -22,11 +22,11 @@ class TaskFactory extends Factory
      */
     public function definition()
     {
-        $user_id = User::all(['id'])->random()->id;
+        $user = User::inRandomOrder()->first();
         return [
-            'title' => $this->faker->text(),
+            'title' => $this->faker->text(15),
             'description' => $this->faker->text(),
-            'user_id' => $user_id,
+            'user_id' => $user,
         ];
     }
 

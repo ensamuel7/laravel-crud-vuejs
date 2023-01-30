@@ -3,7 +3,7 @@
         <!-- COULD CREATE A COMPONENT FOR MENU -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <router-link to="/" class="navbar-brand" href="#">CRUD Task I.O</router-link>
+                <router-link to="/" class="navbar-brand" href="#">CRUD Task</router-link>
                 <div class="collapse navbar-collapse">
                     <!-- SHOW MY TASKS AND LOGOUT iF LOGGED IN -->
                     <div v-if="authenticated" class="navbar-nav">
@@ -23,10 +23,10 @@
         </div>
     </main>
 </template>
- 
+
 <script>
     import { mapGetters, mapActions } from 'vuex'
-    
+
     //spread into computed
     export default {
         computed: {

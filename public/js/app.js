@@ -20564,7 +20564,7 @@ var render = function() {
           _c(
             "router-link",
             { staticClass: "navbar-brand", attrs: { to: "/", href: "#" } },
-            [_vm._v("CRUD Task I.O")]
+            [_vm._v("CRUD Task")]
           ),
           _vm._v(" "),
           _c("div", { staticClass: "collapse navbar-collapse" }, [
