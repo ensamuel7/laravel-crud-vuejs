@@ -24,7 +24,7 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        $tasks = Task::where('user_id', $this->user->id)->get();
+        $tasks = $this->user->tasks;
         return response()->json(
             $tasks,
             200

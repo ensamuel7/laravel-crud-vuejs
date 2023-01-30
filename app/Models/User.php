@@ -48,6 +48,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Task::class);
     }
 
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
      /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
